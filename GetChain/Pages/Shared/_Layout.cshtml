@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    @await Html.PartialAsync("Partials/_TopIncludes")
+    <title>.</title>
+</head>
+
+<body>
+
+@await Html.PartialAsync("Partials/_Navbar")
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+@await Html.PartialAsync("Partials/_Footer")
+
+@await Html.PartialAsync("Partials/_BottomIncludes")
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

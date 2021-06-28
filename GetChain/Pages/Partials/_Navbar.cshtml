@@ -1,0 +1,31 @@
+﻿@using global::GetChain.Core.User
+<header>
+    <nav class="navbar navbar-expand-sm" style="background-color: #3b71ff;"> <!--  navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 -->
+        <div style="padding:.5rem .1rem; width:100%; display:flex">
+            <a class="navbar-brand text-white" asp-area="" asp-page="/Index"><img style="height: 25px;width:25px;" src="icon.png" alt=""/>GetChain</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @* <ul class="navbar-nav flex-grow-1"> *@
+                @*     <li class="nav-item"> *@
+                @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
+                @*     </li> *@
+                @*     <li class="nav-item"> *@
+                @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
+                @*     </li> *@
+                @* </ul> *@
+                
+                <div style="margin-left: auto">
+                    @if ( !this.User.IsLoggedIn() ) {
+                        <a href="/login"><button style="font-size:14px;" class="btn btn-outline-light btn-lg px-4">Sign in</button></a>
+                        <a href="/signup"><button style="font-size:14px;" class="btn btn-light btn-lg px-4">Sign up</button></a>
+                    } else {
+                        <a href="/logout"><button style="font-size:14px;" class="btn btn-primary btn-lg px-4">Sign out</button></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

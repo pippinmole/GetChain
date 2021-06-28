@@ -1,0 +1,48 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="w-50 m-auto">
+    <h1 class="text-center display-4">Login</h1>
+
+    <form method="post" id="loginField" class="p-5">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label for="info-username" class="col-xs-2 control-label">Username</label>
+            <input type="text" asp-for="LoginForm.Username" id="info-username" class="form-control mb-4" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="info-password" class="col-xs-2 control-label">Password</label>
+            <input type="password" asp-for="LoginForm.Password" id="info-password" class="form-control mb-4" placeholder="Password">
+        </div>
+            
+        <div class="d-flex justify-content-between">
+            <div>
+                <div class="custom-control custom-checkbox">
+                    <input asp-for="LoginForm.RememberMe" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                </div>
+            </div>
+            <div>
+                <a asp-page="ForgotPassword">Forgot password?</a>
+            </div>
+        </div>
+                    
+        <div class="d-inline-block m-3">
+            
+        </div>
+            
+        <button class="btn btn-primary btn-block my-4 debounce" type="submit" id="recaptcha">Sign in</button>
+                    
+        <div class="text-center">
+            <p>Not a member?
+                <a asp-page="./Signup">Register</a>
+            </p>
+        </div>
+        @Html.AntiForgeryToken()
+    </form>
+</div>
