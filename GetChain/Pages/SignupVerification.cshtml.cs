@@ -37,8 +37,8 @@ namespace GetChain.Pages {
             }
 
             await this._userManager.SignInAsync(user, true);
-            
-            return this.Redirect("/");
+
+            return this.Page();
         }
     }
 }
