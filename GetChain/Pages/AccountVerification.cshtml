@@ -1,0 +1,43 @@
+@page "/verify"
+@inject IAppUserManager UserManager
+@using global::GetChain.Core.User
+@model AccountVerificationModel
+
+@{
+    ViewData["Title"] = "Verify account";
+    
+    var user = await UserManager.GetUserByIdAsync(this.User.GetUniqueId());
+}
+
+@section Scripts {
+    <script>
+        window.addEventListener("load", function(){
+            setInterval(() => {
+                $.ajax({
+                   url: '?handler=isemailverified'
+                })
+                .done(result => {
+                   if (result.isVerified) {
+                        window.location.href = "/";
+                   }
+                });      
+            }, 5000);
+        });
+    </script>
+
+}
+
+<div class="card mt-5">
+    <div class="card-body text-center m-4">
+        
+        <p class="h3">Please verify your email</p>
+
+        <p>
+            We've sent an email to <strong>@(user.Email)</strong>. <br/>
+
+            Click the link, and it should automatically redirect this page.
+        </p>
+
+        <small class="text-muted">Haven't got the email? Check your spam box.</small>
+    </div>
+</div>

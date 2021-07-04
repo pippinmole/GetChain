@@ -13,6 +13,7 @@ namespace GetChain.Core.User {
 
         public static readonly ApplicationUser NoUser = new ApplicationUser("Deleted User", "unknown@unknown.com");
         public List<ApiKey> ApiKeys { get; set; }
+        public bool IsPro { get; set; }
 
         public ApplicationUser() : base() { }
 

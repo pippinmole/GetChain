@@ -1,14 +1,18 @@
 using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using GetChain.Core.User;
+using GetChain.MailService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace GetChain {
@@ -26,22 +30,41 @@ namespace GetChain {
             services.AddControllers();
 
             services.AddDataProtection();
-
+            
             // set up services
-            services.AddAuthentication()
-                .AddCookie(opt => {
-                    opt.LoginPath = new PathString("/Login");
-                    opt.LogoutPath = new PathString("/Logout");
-                    opt.AccessDeniedPath = new PathString("/AccessDenied");
+            services.AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer();
+                // .AddCookie(opt => {
+                //     opt.LoginPath = new PathString("/Login");
+                //     opt.LogoutPath = new PathString("/Logout");
+                //     opt.AccessDeniedPath = new PathString("/AccessDenied");
+                // })
+                .AddJwtBearer(x => {
+                    x.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = this._configuration["Jwt:Issuer"],
+                        ValidAudience = this._configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this._configuration["Jwt:Secret"]))
+                    };
+                });
 
-            services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Latest)
-                .AddNewtonsoftJson();
+            // services
+            //     .AddMvc()
+            //     .SetCompatibilityVersion(CompatibilityVersion.Latest)
+            //     .AddNewtonsoftJson();
 
+            services.AddAntiforgery(options => {
+                options.HeaderName = "XSRF-TOKEN";
+            });
+            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<MailSenderOptions>(this._configuration.GetSection(MailSenderOptions.Name));
             services.ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, Guid>(new MongoDbIdentityConfiguration {
                 MongoDbSettings = new MongoDbSettings {
                     ConnectionString = this._configuration.GetConnectionString("DatabaseConnectionString"),
@@ -54,10 +77,22 @@ namespace GetChain {
             });
 
             services.AddScoped<IAppUserManager, AppUserManager>();
+            services.AddSingleton<IMailSender, MailSender>();
             services.AddBscScanner(opt => opt.ApiKey = _configuration.GetSection("ApiKeys:BscScanKey").Value);
             
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "GetChain", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "GetChain", 
+                    Version = "v1",
+                    License = new OpenApiLicense {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/pippinmole/GetChain/blob/main/LICENSE")
+                    }
+                });
+                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -79,7 +114,7 @@ namespace GetChain {
             app.UseSwagger();
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CryptAPI v1");
-                // c.RoutePrefix = "api/v1";
+                c.RoutePrefix = "api/v1";
             });
             
             app.UseAuthentication();

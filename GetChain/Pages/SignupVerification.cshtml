@@ -1,0 +1,6 @@
+@page
+@model SignupVerification
+
+@foreach ( var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors) ) {
+    <p>@(error.Exception + ": " + error.ErrorMessage)</p>
+}

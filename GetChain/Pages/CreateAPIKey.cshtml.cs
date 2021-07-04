@@ -30,7 +30,7 @@ namespace GetChain.Pages {
             
             this._logger.LogInformation($"Creating API key for project: {this.CreateKeyForm.ApiKeyName}");
 
-            await _userManager.AddNewApiToken(user, this.CreateKeyForm.ApiKeyName);
+            await _userManager.AddNewApiToken(user, this.CreateKeyForm.ApiKeyName, this.CreateKeyForm.Expiry);
 
             return this.RedirectToPage("/Dashboard");
         }

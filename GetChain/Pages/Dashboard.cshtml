@@ -1,7 +1,6 @@
 ﻿@page
 @inject IAppUserManager UserManager
 @using global::GetChain.Core.User
-@using Microsoft.AspNetCore.Html
 @model DashboardModel
 
 @{
@@ -37,39 +36,49 @@
                     <a asp-page="CreateAPIKey">
                         <button class="btn btn-primary my-3">Create API Key</button>
                     </a>
-                    
-                    <ul class="list-group">
-                        
-                        @if ( user.ApiKeys.Count == 0 ) {
-                            <div>
-                                <p class="font-weight-light text-center">No API keys</p>
-                            </div>
-                        } else {
-                            for ( var i = 0; i < user.ApiKeys.Count; i++ ) {
+
+                    @if ( user.ApiKeys == null || user.ApiKeys.Count == 0 ) {
+                        <div>
+                            <p class="font-weight-light text-center">No API keys</p>
+                        </div>
+                    } else {
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Key Name</th>
+                                <th scope="col">Key Value</th>
+                                <th scope="col">Expires</th>
+                                <th scope="col">Functions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @for ( var i = 0; i < user.ApiKeys.Count; i++ ) {
                                 var key = user.ApiKeys[i];
                                 var id = i.ToString();
 
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                    <div>
-                                        @key.Name
-
-                                        <!-- Target -->
-                                        <span class="font-weight-light ml-2 text-wrap" id="apiKeyValue-@id">@key.Key</span>
-                                    </div>
-
-                                    <div class="d-flex">
-                                        <!-- Trigger -->
-                                        <button class="btn btn-primary mr-1" data-clipboard-target="#apiKeyValue-@id"><i class="far fa-copy"></i></button>
-                                        <form asp-page-handler="DeleteApiKey" asp-route-key="@key.Key" method="post">
-                                            <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </li>
+                                <tr>
+                                    <th scope="row">@id</th>
+                                    <td>@key.Name</td>
+                                    <td id="apiKeyValue-@id" class="overflow-hidden" style="max-width: 150px; text-overflow: ellipsis">@key.Key</td>
+                                    <td>@key.Expires</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <!-- Trigger -->
+                                            <button class="btn btn-primary mr-1" data-clipboard-target="#apiKeyValue-@id"><i class="far fa-copy"></i></button>
+                                            <form asp-page-handler="DeleteApiKey" asp-route-key="@key.Key" method="post">
+                                                <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
-                        }
-                    </ul>
-
+                            </tbody>
+                        </table>
+                    }
+                    
+                    <p class="font-weight-light"><a href="/api/v1">Click here</a> for documentation.</p>
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>

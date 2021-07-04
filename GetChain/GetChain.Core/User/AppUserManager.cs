@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -71,6 +72,10 @@ namespace GetChain.Core.User {
         public async Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user) {
             return await this._userManager.GeneratePasswordResetTokenAsync(user);
         }
+        
+        public async Task<string> GenerateEmailConfirmTokenAsync(ApplicationUser user) {
+            return await this._userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
 
         public async Task<ApplicationUser> GetUserByEmailAsync(string email) {
             return await this._userManager.FindByEmailAsync(email);
@@ -96,7 +101,7 @@ namespace GetChain.Core.User {
             return await this._userManager.CreateAsync(newAccount, password);
         }
 
-        public async Task<IdentityResult> AddNewApiToken(ApplicationUser user, string name) {
+        public async Task<IdentityResult> AddNewApiToken(ApplicationUser user, string name, DateTime expiryDate) {
             var securityKey = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]);
 
             var claims = new[] {
@@ -108,14 +113,16 @@ namespace GetChain.Core.User {
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"],
                 claims,
-                expires: DateTime.Today,
+                expires: expiryDate,
                 signingCredentials: credentials);
 
-            var key = new ApiKey() {
+            var key = new ApiKey {
                 Name = name,
-                Key = new JwtSecurityTokenHandler().WriteToken(token)
+                Key = new JwtSecurityTokenHandler().WriteToken(token),
+                Expires = expiryDate
             };
-            
+
+            user.ApiKeys ??= new List<ApiKey>();
             user.ApiKeys.Add(key);
 
             return await this._userManager.UpdateAsync(user);
@@ -123,6 +130,10 @@ namespace GetChain.Core.User {
 
         public async Task SignInAsync(ApplicationUser newAccount, bool isPersistent) {
             await this._signInManager.SignInAsync(newAccount, isPersistent);
+        }
+        
+        public async Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token) {
+            return await this._userManager.ConfirmEmailAsync(user, token);
         }
     }
 }

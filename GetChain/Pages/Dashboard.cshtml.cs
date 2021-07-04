@@ -15,6 +15,18 @@ namespace GetChain.Pages {
             _userManager = userManager;
         }
 
+        public async Task<IActionResult> OnGetAsync() {
+            var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
+            if ( user == null || !this.User.IsLoggedIn() ) {
+                await _userManager.SignOutAsync();
+                return this.Redirect("/");
+            }
+
+            if ( !user.EmailConfirmed ) return this.Redirect("/verify");
+
+            return this.Page();
+        }
+
         public async Task<IActionResult> OnPostDeleteApiKey(string key) {
             var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
             

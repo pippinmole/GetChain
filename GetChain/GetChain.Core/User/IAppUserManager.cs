@@ -16,12 +16,14 @@ namespace GetChain.Core.User {
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<IdentityResult> RemoveUserAsync(ApplicationUser user);
         Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
+        Task<string> GenerateEmailConfirmTokenAsync(ApplicationUser user);
         Task SignOutAsync();
         Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string password);
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         Task<bool> IsUserInRole(ApplicationUser user, string role);
         Task<IdentityResult> CreateAsync(ApplicationUser newAccount, string password);
         Task SignInAsync(ApplicationUser newAccount, bool isPersistent);
-        Task<IdentityResult> AddNewApiToken(ApplicationUser user, string name);
+        Task<IdentityResult> AddNewApiToken(ApplicationUser user, string name, DateTime expiryDate);
+        Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token);
     }
 }

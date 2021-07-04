@@ -19,6 +19,8 @@
             <label for="keyName" class="col-xs-2 control-label">Project Name</label>
             <input type="text" asp-for="CreateKeyForm.ApiKeyName" id="keyName" class="form-control mb-4" placeholder="Enter project name here">
         </div>
+        
+        Expires: <input class="form-control" asp-for="CreateKeyForm.Expiry"  asp-format="{0:yyyy-MM-ddTHH:mm}" />
 
         <button class="btn btn-primary btn-block my-4 debounce" type="submit" id="recaptcha">Create key</button>
         @Html.AntiForgeryToken()
