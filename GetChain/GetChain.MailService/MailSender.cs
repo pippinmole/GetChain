@@ -45,7 +45,6 @@ namespace GetChain.MailService {
             };
 
             await client.SendMailAsync(msg);
-
         }
     }
 }

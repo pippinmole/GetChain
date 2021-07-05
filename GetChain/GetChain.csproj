@@ -17,10 +17,9 @@
       <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="2.1.1" />
       <PackageReference Include="AutoMapper" Version="10.1.1" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-      <PackageReference Include="BscScanner" Version="0.1.0" />
       <PackageReference Include="BscScanner.Extensions.Convert" Version="0.1.0" />
-      <PackageReference Include="BscScanner.Extensions.DependencyInjection" Version="0.1.2" />
       <PackageReference Include="Csg.ApiKeyGenerator" Version="1.1.11" />
+      <PackageReference Include="Etherscan.Net" Version="1.2.2" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
       <PackageReference Include="RestSharp" Version="106.11.7" />
