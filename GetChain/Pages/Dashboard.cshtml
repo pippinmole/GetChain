@@ -9,11 +9,38 @@
     var user = await UserManager.GetUserByIdAsync(this.User.GetUniqueId());
 }
 
-<script>
-    window.addEventListener("load", () => {
-        new ClipboardJS('.btn');
-    });
-</script>
+@section Scripts {
+    <script>
+     window.addEventListener("load", () => {
+         new ClipboardJS('.btn');
+     });
+     
+     $(document).ready(function() {
+         $("#show_hide_password a").on('click', function(event) {
+             event.preventDefault();
+             if($('#show_hide_password input').attr("type") == "text"){
+                 $('#show_hide_password input').attr('type', 'password');
+                 $('#show_hide_password i').addClass( "fa-eye-slash" );
+                 $('#show_hide_password i').removeClass( "fa-eye" );
+             }else if($('#show_hide_password input').attr("type") == "password"){
+                 $('#show_hide_password input').attr('type', 'text');
+                 $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                 $('#show_hide_password i').addClass( "fa-eye" );
+             }
+         });
+     });
+     
+     
+     const hash = window.location.hash;
+     hash && $('a.nav-link[href="' + hash + '"]').tab('show');
+       
+     document.querySelectorAll('a.nav-link').forEach(link => {
+         link.onclick = () =>{ 
+             window.history.pushState(null, null, link.attributes.href.value);
+         };
+     });
+ </script>
+}
 
 <div>
     <h2 class="text-center mt-3">Welcome to your dashboard, @(user.UserName).</h2>
@@ -33,6 +60,7 @@
                     @* API Keys tab *@
                     
                     <h4>My API Keys</h4>
+                    
                     <a asp-page="CreateAPIKey">
                         <button class="btn btn-primary my-3">Create API Key</button>
                     </a>
@@ -67,7 +95,7 @@
                                         <div class="d-flex">
                                             <!-- Trigger -->
                                             <button class="btn btn-primary mr-1" data-clipboard-target="#apiKeyValue-@id"><i class="far fa-copy"></i></button>
-                                            <form asp-page-handler="DeleteApiKey" asp-route-key="@key.Key" method="post">
+                                            <form asp-page-handler="DeleteApiKey" method="post" asp-route-key="@key.Key">
                                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                             </form>
                                         </div>
@@ -80,7 +108,53 @@
                     
                     <p class="font-weight-light"><a href="/api/v1">Click here</a> for documentation.</p>
                 </div>
-                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    
+                    <h4>My profile</h4>
+                    
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    
+                    <table class="table">
+                        <tr>
+                            <th scope="row">Username</th>
+                            <td>
+                                <form method="post" asp-page-handler="ChangeUsername">
+                                    <div class="input-group">
+                                        <input name="newName" type="text" class="form-control" placeholder="@(user.UserName)">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">E-mail</th>
+                            <td>
+                                
+                                <form method="post" asp-page-handler="ChangeEmail">
+                                    <div class="input-group">
+                                        <input name="newEmail" type="text" class="form-control" placeholder="@(user.Email)">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Password</th>
+                            <td>
+                                <div class="input-group" id="show_hide_password">
+                                    <input class="form-control" type="password">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
             </div>
         </div>

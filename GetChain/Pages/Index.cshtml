@@ -21,7 +21,7 @@
     <div class="w-50 m-auto text-center" style="padding-top: 150px">
         <h2 class="font-weight-bold">Bringing blockchains together</h2>
             
-        <p class="lead mb-5">Access API endpoints across multiple blockchains such as Binance Smart Chain, Ethereum Network any many more!</p>
+        <p class="lead mb-5">Access API endpoints across multiple blockchains such as Binance Smart Chain, Ethereum Network and many more!</p>
         
         <a href="/signup"><button class="btn btn-light font-weight-bold" style="color:#0047ff; padding: 11px 35px">Get Started</button></a>
         <a href="/signup"><button class="btn btn-outline-light font-weight-bold" style="color:#ffffff; padding: 11px 35px">Learn more</button></a>
@@ -29,21 +29,105 @@
 </div>
 
 <div class="w-100">
-    <div class="text-center py-5 background-pattern" style="box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);"> @*inset 0 -4px 4px rgba(0, 0, 0, 0.25), *@
-        <img src="https://www.peacockcoin.finance/assets/images/binance-smart.png" width="200px" style="margin: 20px;" alt=""/>
-        <img src="https://www.drupal.org/files/styles/grid-3-2x/public/project-images/ETHEREUM-LOGO_PORTRAIT_Black_small.png?itok=E8Qrv5WR" width="200px" style="margin: 20px" alt=""/>
+    @* <div class="text-center py-5" style="box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);"> $1$inset 0 -4px 4px rgba(0, 0, 0, 0.25), #1# *@
+    @*     <img src="https://www.peacockcoin.finance/assets/images/binance-smart.png" width="200px" style="margin: 20px;" alt=""/> *@
+    @*     <img src="https://www.drupal.org/files/styles/grid-3-2x/public/project-images/ETHEREUM-LOGO_PORTRAIT_Black_small.png?itok=E8Qrv5WR" width="200px" style="margin: 20px" alt=""/> *@
+    @* </div> *@
+    
+    <div class="w-75 m-auto">
+        <h2 class="text-center mt-5 mb-4">
+            How does it work?
+        </h2>
+        
+        <div class="row justify-content-center text-center">
+            <div class="col-3 bg-white rounded shadow-sm p-3">
+                <img height="96" src="assets/signupaccount.png"/>
+                <p>
+                    <strong>
+                        1. Sign up for an account
+                    </strong> <br/>
+        
+                    By creating an account you will have the ability to create an API key.
+                </p>
+            </div>
+            <div class="col-3 mx-3 bg-white rounded shadow-sm p-3">
+                <img height="96" src="assets/getapikey.png"/>
+                <p>
+                    <strong>
+                        2. Create an API key
+                    </strong> <br/>
+
+                    This will authenticate you as a user of GetChain.
+                </p>
+            </div>
+            <div class="col-3 bg-white rounded shadow-sm p-3">
+                <img height="96" src="assets/integrateproject.png"/>
+                <p>
+                    <strong>
+                        3. Integrate GetChain into your application
+                    </strong> <br/>
+                            
+                    Utilise our Web API to pull data from multiple blockchains, straight into your application. <span class="font-weight-light"><a asp-page="Dashboard">Learn more</a></span>
+                </p>
+            </div>
+        </div>
+        
+        <h2 class="text-center mt-5 mb-4">
+            Why GetChain
+        </h2>
+            
+        <p class="font-weight-light m-auto text-center" style="max-width: 912px;">
+            Blockchain data is spread across multiple provides, making access to some of this data teidious. GetChain solves this by providing realtime data under a single domain. All you need is 1 API key.
+        </p>
     </div>
 </div>
 
-@* <div class="w-100" style="background-color:#0047FF; height: 500px; opacity: 77%; color: white"> *@
-@*      *@
-@* </div> *@
+<div class="w-100" style="margin-bottom: 200px !important;">
+    <div class="w-75 m-auto">
+        <h2 class="text-center mt-5 mb-4">
+            Examples
+        </h2>
+        
+        <p class="font-weight-light m-auto text-center" style="max-width: 912px;">
+            Accessing GetChain endpoints from your desired language is easy!
+        </p>
+
+        <div class="m-auto w-75">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">C#</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JavaScript</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Curl</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <pre class="sunlight-highlight-csharp">
+var httpClient = new HttpClient();
+httpClient.DefaultRequestHeaders.Add("Authorization", "&lt;your api key&gt;");
+
+var json = await httpClient.GetStringAsync("");
+// Generic type 'T' is provided by the user, and matches the schema provided by GetChain API response.
+var response = JsonConvert.SerializeObject&lt;T&gt;(json);
+                    </pre>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <pre class="sunlight-highlight-csharp">
+function x() { return y; }
+                    </pre>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom: 200px"></div>
 
 @await Html.PartialAsync("Partials/_Footer")
 @await Html.PartialAsync("Partials/_BottomIncludes")
-@{
-    //await RenderSectionAsync("Scripts", required: false)
-}
 
 </body>
 </html>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using GetChain.Core.User;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +30,31 @@ namespace GetChain.Pages {
 
         public async Task<IActionResult> OnPostDeleteApiKey(string key) {
             var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
-            
+
             user.ApiKeys.RemoveAll(x => x.Key == key);
 
             await _userManager.UpdateUserAsync(user);
+
+            return this.Page();
+        }
+
+        public async Task<IActionResult> OnPostChangeUsername(string newName) {
+            var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
+            if ( user == null ) return this.Redirect("/");
+
+            _logger.LogWarning($"{user.UserName} is changing their username to {newName}");
+
+            return this.Page();
+        }
+
+        public async Task<IActionResult> OnPostChangeEmail([EmailAddress] string newEmail) {
+            if ( !this.ModelState.IsValid )
+                return this.Page();
+
+            var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
+            if ( user == null ) return this.Redirect("/");
+
+            _logger.LogWarning($"{user.UserName} is changing their email to {newEmail}");
 
             return this.Page();
         }

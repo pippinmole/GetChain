@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Numerics;
 using EthScanNet.Lib;
 using EthScanNet.Lib.Models.ApiResponses.Accounts;

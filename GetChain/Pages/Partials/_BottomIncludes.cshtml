@@ -1,13 +1,14 @@
 ﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="~/lib/sunlight-1.22.0/themes/sunlight.default.css" />
 <script type="text/javascript" src="~/lib/sunlight-1.22.0/sunlight-min.js"></script>
 <script type="text/javascript" src="~/lib/sunlight-1.22.0/lang/sunlight.csharp-min.js"></script>
 
 <script type="text/javascript">
-    Sunlight.highlightAll({
-        lineNumbers: false
+    window.addEventListener("load", () => {
+        Sunlight.highlightAll({
+            // lineNumbers: false
+        });
     });
 </script>
 
