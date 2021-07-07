@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Components;
 
 namespace GetChain.Forms {
     public class LoginForm {
@@ -7,7 +8,7 @@ namespace GetChain.Forms {
 
         [Required, DataType(DataType.Password)]
         public string Password { get; set; }
-
+        
         public bool RememberMe { get; set; }
 
         public LoginForm() { }

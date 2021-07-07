@@ -17,11 +17,9 @@
         <input type="password" autocomplete="on" name="password" asp-for="LoginForm.Password" id="password" class="form-control mb-4" placeholder="Password">
         
         <div class="d-flex justify-content-between">
-            <div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Keep me signed in on this device</label>
-                </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" id="defaultLoginFormRemember">
+                <label class="custom-control-label" for="defaultLoginFormRemember">Keep me signed in on this device</label>
             </div>
             <div>
                 <a asp-page="ForgotPassword">Forgot password?</a>
@@ -29,7 +27,7 @@
         </div>
         
         <button class="btn btn-primary btn-block my-4 debounce" type="submit" id="recaptcha">Log in</button>
-        @Html.AntiForgeryToken()
+        @* @Html.AntiForgeryToken() *@
     </form>
     
     <p class="font-weight-light">Dont have an account? <a asp-page="Signup">Sign up for free!</a></p>
