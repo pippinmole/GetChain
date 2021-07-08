@@ -111,6 +111,10 @@ namespace GetChain {
                 app.UseHsts();
             }
 
+            app.UseCors(opt => {
+                opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
