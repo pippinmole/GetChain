@@ -35,6 +35,7 @@ a {
 -------------------------------------------------- */
 html {
     font-size: 14px;
+    scroll-behavior: smooth;
 }
 @media (min-width: 768px) {
     html {
