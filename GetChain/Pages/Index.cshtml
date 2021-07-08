@@ -17,16 +17,20 @@
 
 @await Html.PartialAsync("Partials/_Navbar")
 
-<div class="w-100" style="background-color:#0047FF; height: 500px; opacity: 77%; color: white">
+<div class="w-100" style="background-color:#0047FF; min-height: 500px; opacity: 77%; color: white">
     <div class="w-50 m-auto text-center" style="padding-top: 150px">
-        <h2 class="font-weight-bold">Bringing blockchains together</h2>
+        <h1 class="font-weight-bold">Bringing blockchains together</h1>
             
         <p class="lead mb-5">Access API endpoints across multiple blockchains such as Binance Smart Chain, Ethereum Network and many more!</p>
         
         <a href="/signup"><button class="btn btn-light font-weight-bold" style="color:#0047ff; padding: 11px 35px">Get Started</button></a>
-        <a href="/signup"><button class="btn btn-outline-light font-weight-bold" style="color:#ffffff; padding: 11px 35px">Learn more</button></a>
+        <a href="#howitworks"><button class="btn btn-outline-light font-weight-bold" style="color:#ffffff; padding: 11px 35px">Learn more</button></a>
     </div>
 </div>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="position-absolute bg-transparent text-center overflow-hidden">
+    <path fill="#3b71ff" fill-opacity="1" d="M0,0L40,32C80,64,160,128,240,154.7C320,181,400,171,480,154.7C560,139,640,117,720,117.3C800,117,880,139,960,154.7C1040,171,1120,181,1200,197.3C1280,213,1360,235,1400,245.3L1440,256L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path>
+</svg>
 
 <div class="w-100">
     @* <div class="text-center py-5" style="box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);"> $1$inset 0 -4px 4px rgba(0, 0, 0, 0.25), #1# *@
@@ -35,22 +39,22 @@
     @* </div> *@
     
     <div class="w-75 m-auto">
-        <h2 class="text-center mt-5 mb-4">
+        <h2 id="howitworks" class="text-center mt-5 mb-4">
             How does it work?
         </h2>
         
-        <div class="row justify-content-center text-center">
-            <div class="col-3 bg-white rounded shadow-sm p-3">
+        <div class="row justify-content-around text-center">
+            <div class="col-sm-3 my-1 bg-white rounded shadow-sm p-3">
                 <img height="96" src="assets/signupaccount.png"/>
                 <p>
                     <strong>
                         1. Sign up for an account
                     </strong> <br/>
         
-                    By creating an account you will have the ability to create an API key.
+                    By creating an account you will have access to unlimited API keys.
                 </p>
             </div>
-            <div class="col-3 mx-3 bg-white rounded shadow-sm p-3">
+            <div class="col-sm-3 my-1 bg-white rounded shadow-sm p-3">
                 <img height="96" src="assets/getapikey.png"/>
                 <p>
                     <strong>
@@ -60,7 +64,7 @@
                     This will authenticate you as a user of GetChain.
                 </p>
             </div>
-            <div class="col-3 bg-white rounded shadow-sm p-3">
+            <div class="col-sm-3 my-1 bg-white rounded shadow-sm p-3">
                 <img height="96" src="assets/integrateproject.png"/>
                 <p>
                     <strong>
@@ -77,8 +81,41 @@
         </h2>
             
         <p class="font-weight-light m-auto text-center" style="max-width: 912px;">
-            Blockchain data is spread across multiple provides, making access to some of this data teidious. GetChain solves this by providing realtime data under a single domain. All you need is 1 API key.
+            Blockchain data is spread across multiple providers, making access to some of this data teidious. GetChain solves this by providing realtime data under a single domain. All you need is 1 API key.
         </p>
+        
+        <div class="row justify-content-center text-center">
+            <div class="col-sm-2 my-1 rounded p-3">
+                <i class="fas fa-shipping-fast mb-2" style="color: #3b71ff; font-size: 50px"></i>
+                <p>
+                    <strong>
+                        Speedy
+                    </strong> <br/>
+                
+                    With scaled, distributed services, latency is no issue.
+                </p>
+            </div>
+            <div class="col-sm-2 my-1 rounded p-3">
+                <i class="fas fa-thumbs-up mb-2" style="color: #3b71ff; font-size: 50px"></i>
+                <p>
+                    <strong>
+                        Hassle free
+                    </strong> <br/>
+        
+                    Get started quickly and easily, just grab a key and get requesting!
+                </p>
+            </div>
+            <div class="col-sm-2 my-1 rounded p-3">
+                <i class="fas fa-globe mb-2" style="color: #3b71ff; font-size: 50px"></i>
+                <p>
+                    <strong>
+                        Global access
+                    </strong> <br/>
+                        
+                    Access GetChain endpoints from anywhere in the world.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -113,11 +150,24 @@ var response = JsonConvert.SerializeObject&lt;T&gt;(json);
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <pre class="sunlight-highlight-csharp">
-function x() { return y; }
+const options = {
+    method: "GET",
+    headers: {
+        "Content-type": "application/json;",
+        "Authorization": "Bearer &lt;your api token&gt;"
+    }
+}
+
+fetch('https://getchain.dev/api/v1/bsc/account/balance/0x59784ccC71205eF6A292F973e44f46CdC1f58306', options)
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
                     </pre>
                 </div>
                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                    
+                    <pre class="sunlight-highlight-csharp">
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer &lt;your api token&gt;" https://getchain.dev/api/v1/bsc/account/balance/0x59784ccC71205eF6A292F973e44f46CdC1f58306
+                    </pre>
                 </div>
             </div>
         </div>
