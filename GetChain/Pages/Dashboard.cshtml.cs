@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Web;
+using GetChain.Attributes;
 using GetChain.Core.User;
+using GetChain.GetChain.Extensions;
+using GetChain.MailService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -10,10 +15,12 @@ namespace GetChain.Pages {
     public class DashboardModel : PageModel {
         private readonly ILogger<DashboardModel> _logger;
         private readonly IAppUserManager _userManager;
+        private readonly IMailSender _mailSender;
 
-        public DashboardModel(ILogger<DashboardModel> logger, IAppUserManager userManager) {
+        public DashboardModel(ILogger<DashboardModel> logger, IAppUserManager userManager, IMailSender mailSender) {
             _logger = logger;
             _userManager = userManager;
+            _mailSender = mailSender;
         }
 
         public async Task<IActionResult> OnGetAsync() {
@@ -38,24 +45,34 @@ namespace GetChain.Pages {
             return this.Page();
         }
 
-        public async Task<IActionResult> OnPostChangeUsername(string newName) {
+        public async Task<IActionResult> OnPostChangeUsername([MaxLength(15), MinLength(10)] string username) {
+            if ( !this.ModelState.IsValid )
+                return this.Page();
+                
             var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
             if ( user == null ) return this.Redirect("/");
 
-            _logger.LogWarning($"{user.UserName} is changing their username to {newName}");
+            user.UserName = username;
+            
+            await _userManager.UpdateUserAsync(user);
+            
+            _logger.LogWarning($"{user.UserName} is changing their username to {username}");
 
             return this.Page();
         }
-
-        public async Task<IActionResult> OnPostChangeEmail([EmailAddress] string newEmail) {
+        
+        public async Task<IActionResult> OnPostChangePassword() {
             if ( !this.ModelState.IsValid )
                 return this.Page();
-
+                
             var user = await _userManager.GetUserByIdAsync(this.User.GetUniqueId());
             if ( user == null ) return this.Redirect("/");
 
-            _logger.LogWarning($"{user.UserName} is changing their email to {newEmail}");
-
+            var resetToken = await this._userManager.GeneratePasswordResetTokenAsync(user);
+            await _mailSender.SendPasswordReset(user.Email, resetToken, this);
+            
+            _logger.LogInformation($"{user.UserName} has requested a password change.");
+            
             return this.Page();
         }
     }
