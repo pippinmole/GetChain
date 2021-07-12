@@ -1,5 +1,4 @@
 ﻿<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>
     @{
         var title = ViewData["Title"]?.ToString();
@@ -10,19 +9,30 @@
         }
     }
 </title>
+
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <link rel="stylesheet" href="~/css/site.css"/>
 <link rel="stylesheet" type="text/css" href="~/lib/sunlight-1.22.0/themes/sunlight.default.css" />
 
+<!-- Primary Meta Tags -->
+<meta name="title" content="@ViewData["Title"]">
+<meta name="description" content="@ViewData["Description"]">
+<meta name="keywords" content="crypto, api, getchain, blockchain, distributed, blockchain technology, https, bitcoin"/>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="@ViewData["Title"]"/>
+<meta property="og:description" content="@ViewData["Description"]"/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://getchain.dev/"/>
 <meta property="og:image" content="https://getchain.dev/favicon.ico"/>
 
-<meta property="og:title" content="@ViewData["Title"]"/>
-<meta property="og:description" content="@ViewData["Description"]"/>
-
-<meta charset="utf-8"/>
-    
 <meta name="viewport" content="user-scalable=0, user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://getchain.dev/">
+<meta property="twitter:title" content="@ViewData["Title"]">
+<meta property="twitter:description" content="@ViewData["Description"]">
+<meta property="twitter:image" content="https://getchain.dev/favicon.ico">
