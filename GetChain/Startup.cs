@@ -4,11 +4,13 @@ using System.Reflection;
 using System.Text;
 using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
+using AspNetCoreHero.ToastNotification;
 using GetChain.Core.User;
 using GetChain.MailService;
 using GetChain.SwaggerGen.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Win32;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace GetChain {
@@ -62,6 +65,12 @@ namespace GetChain {
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddNewtonsoftJson();
 
+            services.AddNotyf(options => {
+                options.Position = NotyfPosition.TopRight;
+                options.IsDismissable = true;
+                options.DurationInSeconds = 5;
+            });
+            
             services.AddAntiforgery(options => {
                 options.HeaderName = "XSRF-TOKEN";
             });

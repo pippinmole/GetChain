@@ -54,13 +54,15 @@
             </div>
         </div>
         <div class="col-9">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 
                     @* API Keys tab *@
-                    
+
                     <h4>My API Keys</h4>
-                    
+
                     <a asp-page="CreateAPIKey">
                         <button class="btn btn-primary my-3">Create API Key</button>
                     </a>
@@ -105,22 +107,20 @@
                             </tbody>
                         </table>
                     }
-                    
+
                     <p class="font-weight-light"><a href="/api/v1">Click here</a> for documentation.</p>
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    
+
                     <h4>My profile</h4>
-                    
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    
+
                     <table class="table">
                         <tr>
                             <th scope="row">Username</th>
                             <td>
                                 <form method="post" asp-page-handler="ChangeUsername">
                                     <div class="input-group">
-                                        <input name="newName" type="text" class="form-control" placeholder="@(user.UserName)">
+                                        <input name="username" type="text" class="form-control" placeholder="@(user.UserName)">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="submit">Update</button>
                                         </div>
@@ -131,26 +131,22 @@
                         <tr>
                             <th scope="row">E-mail</th>
                             <td>
-                                
                                 <form method="post" asp-page-handler="ChangeEmail">
-                                    <div class="input-group">
-                                        <input name="newEmail" type="text" class="form-control" placeholder="@(user.Email)">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-secondary" type="submit">Update</button>
-                                        </div>
-                                    </div>
+                                    <input name="email" type="text" class="form-control" placeholder="@(user.Email)" readonly>
                                 </form>
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Password</th>
                             <td>
-                                <div class="input-group" id="show_hide_password">
-                                    <input class="form-control" type="password">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                <form method="post" asp-page-handler="ChangePassword">
+                                    <div class="input-group">
+                                        <input name="password" type="password" class="form-control" value="someSortOfPassword" readonly>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">Request password reset</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </td>
                         </tr>
                     </table>
