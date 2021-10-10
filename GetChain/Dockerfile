@@ -1,7 +1,16 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS build
+WORKDIR /app
 
-RUN dotnet publish
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-COPY bin/Release/net5.0/publish/ App/
-WORKDIR /App
+# Copy everything else and build
+COPY ../engine/examples ./
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+WORKDIR /app
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "GetChain.dll"]
