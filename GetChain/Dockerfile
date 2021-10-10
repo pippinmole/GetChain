@@ -7,6 +7,7 @@ COPY *.csproj ./
 
 # Copy everything else and build
 # COPY ../engine/examples ./
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
