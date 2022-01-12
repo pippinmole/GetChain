@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using AspNetCore.Identity.MongoDbCore.Models;
 using GetChain.GetChain.Core;
-using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
 
@@ -11,11 +10,11 @@ namespace GetChain.Core.User {
     [BsonIgnoreExtraElements]
     public class ApplicationUser : MongoIdentityUser<Guid> {
 
-        public static readonly ApplicationUser NoUser = new ApplicationUser("Deleted User", "unknown@unknown.com");
+        public static readonly ApplicationUser NoUser = new("Deleted User", "unknown@unknown.com");
         public List<ApiKey> ApiKeys { get; set; }
-        public bool IsPro { get; set; }
+        public List<ApiUsage> ApiUsages { get; set; }
 
-        public ApplicationUser() : base() { }
+        public ApplicationUser() { }
 
         public ApplicationUser(string userName, string email) : base(userName, email) { }
     }

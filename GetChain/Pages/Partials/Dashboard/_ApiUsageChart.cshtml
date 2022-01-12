@@ -1,0 +1,56 @@
+@using global::GetChain.Core.User
+@using global::GetChain.GetChain.Extensions
+@inject IAppUserManager UserManager
+
+@{
+    var user = await UserManager.GetUserByIdAsync(this.User.GetUniqueId());
+
+    var dates = user.ApiUsages?
+        .Select(x => x.Time)
+        .WithEmptyDates(DateTime.Today.AddDays(-7), DateTime.Now, TimeSpan.FromDays(1));
+    var weeksWorth = dates?
+        .Between(DateTime.Today.AddDays(-7), DateTime.Now)
+        .FrequencyGroupByDay()
+        .ToList();
+
+    var days = weeksWorth?.Select(x => $"{x.Key:dd/MM/yyyy}");
+    var frequency = weeksWorth?.Select(x => x.Value);
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => { 
+
+        const xValues = @Html.Raw(Json.Serialize(days));
+        const yValues = @Html.Raw(Json.Serialize(frequency));
+        
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: yValues
+                }]
+            },
+            options: {
+                // title: {
+                //     display: true,
+                //     text: "World Wine Production 2018"
+                // },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                            stepSize: 0
+                        }
+                    }]
+                },
+            }
+        });
+    });
+</script>
+
+<div class="chart-container" width="600" height="400">
+    <canvas id="myChart"></canvas>
+</div>

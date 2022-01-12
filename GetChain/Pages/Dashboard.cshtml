@@ -30,7 +30,6 @@
          });
      });
      
-     
      const hash = window.location.hash;
      hash && $('a.nav-link[href="' + hash + '"]').tab('show');
        
@@ -44,7 +43,9 @@
 
 <div>
     <h2 class="text-center mt-3">Welcome to your dashboard, @(user.UserName).</h2>
-
+    
+    @await Html.PartialAsync("Partials/Dashboard/_ApiUsageChart", UserManager)
+    
     <div class="row mt-5">
         <div class="col-3">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">

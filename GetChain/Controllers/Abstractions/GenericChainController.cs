@@ -20,6 +20,7 @@ namespace CryptAPI.Controllers {
 
         #region Account
         
+        [ApiUsage]
         [JwtAuthorize]
         [HttpGet("account/balance/{address}")]
         public async Task<EScanBalance> GetBalance(string address) {

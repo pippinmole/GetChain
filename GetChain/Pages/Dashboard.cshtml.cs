@@ -16,7 +16,7 @@ namespace GetChain.Pages {
         private readonly ILogger<DashboardModel> _logger;
         private readonly IAppUserManager _userManager;
         private readonly IMailSender _mailSender;
-
+        
         public DashboardModel(ILogger<DashboardModel> logger, IAppUserManager userManager, IMailSender mailSender) {
             _logger = logger;
             _userManager = userManager;
