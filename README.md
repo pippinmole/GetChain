@@ -17,7 +17,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/pippinmole/GetChain">
-    <img src="https://github.com/pippinmole/GetChain/blob/main/product/logo/getchain-logo.png" alt="Logo" width="40%" >
+    <img src="https://github.com/pippinmole/GetChain/blob/main/product/logo/getchain-logo.png" alt="Logo" width="20%" >
   </a>
 
 <h3 align="center">GetChain</h3>
@@ -25,7 +25,7 @@
   <p align="center">
     Monitor your Helium miners' uptime and get notified when they go down!
     <br />
-    <a href="https://github.com/pippinmole/GetChain"><strong>Explore the docs »</strong></a>
+    <a href="https://getchain.dev/api/v1/index.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://getchain.dev/">View Demo</a>
@@ -43,7 +43,15 @@
 <img src="images/site-screenshot.png" align="center" alt="Logo" width="2862" >
 </p>
 
-This website tracks uptime and diagnoses network issues for [Helium devices](https://www.helium.com/). The backend is written in ASP.NET Core Razor pages (Server-Side Rendering).
+This website aggregates blockchain data from these blockchains:
+1. Binance Smart Chain
+2. Ethereum Chain
+3. Goerli
+4. Kovan
+5. Rinkeby
+6. Ropsten
+
+into a single API endpoint and API key, mitigating the need to generate multiple API keys from different providers.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -57,8 +65,6 @@ This website tracks uptime and diagnoses network issues for [Helium devices](htt
 * [JQuery](https://jquery.com)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -78,14 +84,20 @@ To get a local copy up and running follow these simple example steps.
     3. Set up user secrets
    ```sh
     dotnet user-secrets init
-    dotnet user-secrets set "ConnectionStrings:DatabaseConnectionString" "<Get this from your dashboard>"
-    dotnet user-secrets set "HeliumOptions:TransactionAddress" "<Helium Address>"
-    dotnet user-secrets set "MailSenderOptions:ApiKey" "<Get this from your MailGun dashboard>"
-    dotnet user-secrets set "MailSenderOptions:Domain" "<The domain emails will come from>"
-    dotnet user-secrets set "MailSenderOptions:FromName" "<The name emails will come from>"
-    dotnet user-secrets set "RecaptchaSettings:SecretKey" "<Get this from your google dashboard>"
-    dotnet user-secrets set "RecaptchaSettings:SiteKey" "<Get this from your google dashboard>"
-    dotnet user-secrets set "Serilog:Datadog:ApiKey" "<Get this from Datadog dashboard>"
+    dotnet user-secrets set "ApiKeys:BscScanKey" ""
+    dotnet user-secrets set "ApiKeys:EtherScanKey" ""
+    dotnet user-secrets set "ApiKeys:GoerliKey" ""
+    dotnet user-secrets set "ApiKeys:KovanKey" ""
+    dotnet user-secrets set "ApiKeys:RinkebyKey" ""
+    dotnet user-secrets set "ApiKeys:RopstenKey" ""
+    dotnet user-secrets set "ConnectionStrings:DatabaseConnectionString" "<Get this from your MongoDB dashboard>"
+    dotnet user-secrets set "Jwt:Issuer" ""
+    dotnet user-secrets set "Jwt:Secret" ""
+    dotnet user-secrets set "MailSenderOptions:AddressFrom" "<The domain emails will come from>"
+    dotnet user-secrets set "MailSenderOptions:Password" "<Get this from your MailGun dashboard>"
+    dotnet user-secrets set "MailSenderOptions:Port" "<Get this from your MailGun dashboard>"
+    dotnet user-secrets set "MailSenderOptions:SmtpHostAddress" "<Get this from your MailGun dashboard>"
+    dotnet user-secrets set "Serilog:Datadog:ApiKey" "<Get this from your DataDog dashboard>"
     ```
 4. Build the solution
    ```sh
@@ -98,15 +110,12 @@ To get a local copy up and running follow these simple example steps.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 ## Usage
 
 Once you have executed ``dotnet run`` , a website at https://localhost:7086/ will be available. This site allows you to:
 1. Create an account and sign in
-2. Add Helium miners to your 'watch list'
-3. Upgrade your account type by paying ``HNT`` to a specified address
-4. Run diagnostics on your Helium device (Port checking, etc.)
+2. Generate multiple API keys
+3. Perform HTTP requests to the API using the API key as authentication
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
